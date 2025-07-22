@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: hairmatch-backend
+    env: node
+    region: singapore  # 또는 oregon (한국과 가까운 지역)
+    plan: starter  # 무료 또는 $7/월
+    buildCommand: cd backend && npm ci && npm run build
+    startCommand: cd backend && npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: CORS_ORIGIN
+        sync: false  # 수동으로 설정 
