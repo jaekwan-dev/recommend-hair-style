@@ -374,7 +374,7 @@ const AnalysisPage = () => {
             AI 얼굴형 분석 중
           </h1>
           
-          <p className="text-gray-600 mb-8">
+          <p className="text-gray-600 mb-6">
             {analysisMethod === 'mediapipe' ? 
               'Google MediaPipe로 정밀 분석하고 있습니다' : 
               '백엔드 API로 분석하고 있습니다'
@@ -402,9 +402,9 @@ const AnalysisPage = () => {
             </div>
           </div>
 
-          {/* 분석 단계 안내 */}
+          {/* 분석 단계 안내 - iPhone 12 Pro 최적화 */}
           <div className="bg-gray-50 rounded-xl p-4 text-left">
-            <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
+            <h3 className="font-semibold text-gray-900 mb-3 flex items-center text-sm">
               {analysisMethod === 'mediapipe' ? (
                 <>
                   <Zap className="w-4 h-4 mr-2 text-yellow-500" />
@@ -414,7 +414,7 @@ const AnalysisPage = () => {
                 '🔍 분석 과정'
               )}
             </h3>
-            <div className="space-y-2 text-sm text-gray-600">
+            <div className="space-y-2 text-xs text-gray-600">
               {analysisMethod === 'mediapipe' ? (
                 <>
                   <div className={`flex items-center ${progress >= 10 ? 'text-purple-600' : ''}`}>
@@ -461,7 +461,7 @@ const AnalysisPage = () => {
             </div>
           </div>
 
-          <div className="mt-6 text-xs text-gray-400">
+          <div className="mt-4 text-xs text-gray-400 text-center">
             {analysisMethod === 'mediapipe' ? 
               '🚀 Google MediaPipe AI 기술 사용 중...' : 
               '잠시만 기다려주세요...'

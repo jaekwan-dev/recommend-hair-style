@@ -44,23 +44,23 @@ const ResultPage = () => {
             <Sparkles className="w-12 h-12 text-green-600" />
           </div>
           
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          <h1 className="text-xl font-bold text-gray-900 mb-2">
             분석 완료! 🎉
           </h1>
           
-          <p className="text-gray-600 mb-8">
+          <p className="text-gray-600 mb-6">
             당신의 얼굴형이 분석되었습니다
           </p>
 
-          {/* 분석 결과 */}
-          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 mb-6">
-            <div className="text-6xl mb-4">
+          {/* Analysis Result - iPhone 12 Pro 최적화 */}
+          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-5 mb-5">
+            <div className="text-5xl mb-3 text-center">
               {getFaceShapeEmoji(result.faceShape)}
             </div>
-            <h2 className="text-xl font-bold text-gray-900 mb-2">
+            <h2 className="text-lg font-bold text-gray-900 mb-2 text-center">
               {result.faceShape.toUpperCase()}
             </h2>
-            <p className="text-gray-700 mb-4">
+            <p className="text-gray-700 mb-4 text-sm text-center leading-relaxed">
               {result.description}
             </p>
             <div className="flex items-center justify-center space-x-4 text-sm text-gray-600">
@@ -77,16 +77,16 @@ const ResultPage = () => {
             </div>
           </div>
 
-          {/* 추가 정보 */}
+          {/* Additional Info - 더 컴팩트하게 */}
           {result.metadata && (
-            <div className="bg-gray-50 rounded-lg p-4 mb-6 text-left">
-              <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
+            <div className="bg-gray-50 rounded-lg p-3 mb-5 text-left">
+              <h3 className="font-semibold text-gray-900 mb-3 flex items-center text-sm">
                 {result.metadata.analysisMethod === 'MediaPipe' && (
                   <Zap className="w-4 h-4 mr-2 text-yellow-500" />
                 )}
                 분석 정보
               </h3>
-              <div className="text-sm text-gray-600 space-y-2">
+              <div className="text-xs text-gray-600 space-y-1">
                 {result.metadata.analysisMethod === 'MediaPipe' && result.metadata.landmarkCount && (
                   <p>• 추출된 랜드마크: {result.metadata.landmarkCount}개</p>
                 )}
@@ -104,7 +104,7 @@ const ResultPage = () => {
             </div>
           )}
 
-          {/* 계속하기 버튼 */}
+          {/* Continue Button - iPhone에 맞게 조정 */}
           <button
             onClick={goToRecommendation}
             className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 px-6 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center justify-center group"
@@ -113,10 +113,10 @@ const ResultPage = () => {
             <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
           </button>
 
-          {/* 참고 사항 */}
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg text-left">
-            <h3 className="font-semibold text-blue-900 mb-2">💡 알고 계셨나요?</h3>
-            <p className="text-sm text-blue-800">
+          {/* Note - 더 컴팩트하게 */}
+          <div className="mt-5 p-3 bg-blue-50 rounded-lg text-left">
+            <h3 className="font-semibold text-blue-900 mb-2 text-sm">💡 알고 계셨나요?</h3>
+            <p className="text-xs text-blue-800 leading-relaxed">
               {result.faceShape === 'oval' && '타원형은 가장 이상적인 얼굴형으로 다양한 헤어스타일이 잘 어울립니다.'}
               {result.faceShape === 'round' && '둥근형 얼굴에는 볼륨감 있는 탑 스타일이나 레이어드 컷이 잘 어울립니다.'}
               {result.faceShape === 'oblong' && '긴 얼굴형에는 사이드 파팅이나 웨이브 스타일이 균형감을 줍니다.'}

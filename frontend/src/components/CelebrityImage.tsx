@@ -23,7 +23,7 @@ export const CelebrityImage = ({ name, alt, className = '' }: CelebrityImageProp
         // TMDB 서비스 설정 확인
         if (!tmdbService.isConfigured()) {
           console.warn('⚠️ TMDB API 키가 설정되지 않았습니다. 기본 아바타를 사용합니다.')
-          setImageUrl(`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=780&background=6366f1&color=fff&font-size=0.4&bold=true`)
+          setImageUrl(`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=400&background=6366f1&color=fff&font-size=0.4&bold=true`)
           return
         }
         
@@ -36,7 +36,7 @@ export const CelebrityImage = ({ name, alt, className = '' }: CelebrityImageProp
         console.error(`이미지 로드 실패 (${name}):`, err)
         if (isMounted) {
           setError(true)
-          setImageUrl(`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=780&background=ef4444&color=fff&font-size=0.4&bold=true`)
+          setImageUrl(`https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=400&background=ef4444&color=fff&font-size=0.4&bold=true`)
         }
       } finally {
         if (isMounted) {
@@ -56,9 +56,9 @@ export const CelebrityImage = ({ name, alt, className = '' }: CelebrityImageProp
     <div className={`relative ${className}`}>
       {loading && (
         <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-200 animate-pulse rounded-full flex items-center justify-center">
-          <div className="flex flex-col items-center space-y-2">
-            <div className="w-8 h-8 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
-            <span className="text-xs text-gray-500 font-medium">로딩중...</span>
+          <div className="flex flex-col items-center space-y-1">
+            <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            <span className="text-xs text-gray-500 font-medium">로딩</span>
           </div>
         </div>
       )}
@@ -73,20 +73,20 @@ export const CelebrityImage = ({ name, alt, className = '' }: CelebrityImageProp
         onError={(e) => {
           console.log(`💥 이미지 로드 에러: ${name}, 기본 아바타로 대체`)
           setError(true)
-          e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=780&background=6b7280&color=fff&font-size=0.4&bold=true`
+          e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=400&background=6b7280&color=fff&font-size=0.4&bold=true`
         }}
       />
       
-      {/* 고화질 배지 (실제 TMDB 이미지일 때만) */}
+      {/* 고화질 배지 - iPhone에 맞게 작게 */}
       {!loading && !error && imageUrl.includes('image.tmdb.org') && (
-        <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold shadow-lg">
+        <div className="absolute top-1 right-1 bg-green-500 text-white text-xs px-1.5 py-0.5 rounded-full font-bold shadow-md">
           HD
         </div>
       )}
       
-      {/* 에러 표시 개선 */}
+      {/* 에러 표시 - 더 작게 */}
       {error && !loading && (
-        <div className="absolute bottom-2 right-2 w-6 h-6 bg-yellow-500 rounded-full border-2 border-white flex items-center justify-center shadow-lg">
+        <div className="absolute bottom-1 right-1 w-5 h-5 bg-yellow-500 rounded-full border-2 border-white flex items-center justify-center shadow-md">
           <span className="text-xs text-white font-bold">!</span>
         </div>
       )}

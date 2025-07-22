@@ -98,37 +98,37 @@ const RecommendationPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* 헤더 */}
+      {/* 헤더 - iPhone 12 Pro 최적화 */}
       <div className="safe-top bg-white border-b border-gray-200">
-        <div className="flex items-center justify-between p-4">
+        <div className="flex items-center justify-between px-4 py-3">
           <button
             onClick={handleBack}
             className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
           >
-            <ArrowLeft className="w-6 h-6 text-gray-600" />
+            <ArrowLeft className="w-5 h-5 text-gray-600" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-800">🌟 AI 스타일 추천</h1>
+          <h1 className="text-base font-semibold text-gray-800">🌟 AI 스타일 추천</h1>
           <button
             onClick={handleStartOver}
             className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
           >
-            <RotateCcw className="w-5 h-5 text-gray-600" />
+            <RotateCcw className="w-4 h-4 text-gray-600" />
           </button>
         </div>
       </div>
 
-      {/* 내 정보 요약 */}
-      <div className="bg-white p-6 border-b border-gray-200">
-        <div className="flex items-center space-x-4">
-          <div className="w-16 h-16 rounded-full overflow-hidden shadow-md">
+      {/* 내 정보 요약 - 높이 축소 */}
+      <div className="bg-white px-4 py-4 border-b border-gray-200">
+        <div className="flex items-center space-x-3">
+          <div className="w-12 h-12 rounded-full overflow-hidden shadow-md flex-shrink-0">
             <img
               src={imagePreview || result.imageUrl}
               alt="내 사진"
               className="w-full h-full object-cover"
             />
           </div>
-          <div>
-            <h2 className="text-lg font-bold text-gray-800">
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base font-bold text-gray-800 truncate">
               {faceShapeNames[result.faceShape as keyof typeof faceShapeNames]} 얼굴형
             </h2>
             <p className="text-sm text-gray-600">
@@ -140,22 +140,21 @@ const RecommendationPage = () => {
       </div>
 
       {/* 추천 결과 */}
-      <div className="px-6 py-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xl font-bold text-gray-800">
-            당신에게 어울리는 헤어스타일
+      <div className="px-4 py-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-lg font-bold text-gray-800">
+            추천 헤어스타일
           </h3>
-          <span className="text-sm text-gray-500">
-            총 {recommendations.length}개 추천
+          <span className="text-xs text-gray-500">
+            총 {recommendations.length}개
           </span>
         </div>
 
-        {/* 얼굴형 설명 및 팁 */}
+        {/* 얼굴형 설명 및 팁 - 컴팩트하게 */}
         {loading === false && recommendations.length > 0 && (
-          <div className="bg-blue-50 rounded-lg p-4 mb-6">
-            <h4 className="font-semibold text-blue-900 mb-2">💡 얼굴형 특징</h4>
-            <p className="text-sm text-blue-800 mb-3">
-              {/* 백엔드에서 faceShapeDescription을 받아서 표시 */}
+          <div className="bg-blue-50 rounded-lg p-3 mb-4">
+            <h4 className="font-semibold text-blue-900 mb-2 text-sm">💡 얼굴형 특징</h4>
+            <p className="text-xs text-blue-800 mb-3 leading-relaxed">
               {result.faceShape === 'round' && '볼살이 많고 턱선이 둥근 얼굴형입니다.'}
               {result.faceShape === 'oblong' && '턱선이 길고 이마가 높은 긴 얼굴형입니다.'}
               {result.faceShape === 'square' && '턱이 각지고 넓은 이마를 가진 각진 얼굴형입니다.'}
@@ -163,8 +162,8 @@ const RecommendationPage = () => {
               {result.faceShape === 'heart' && '광대가 도드라지고 턱이 좁은 하트형 얼굴형입니다.'}
               {result.faceShape === 'oval' && '이상적인 비율을 가진 균형잡힌 타원형 얼굴입니다.'}
             </p>
-            <h5 className="font-semibold text-blue-900 mb-2">📋 스타일링 팁</h5>
-            <ul className="text-sm text-blue-800 space-y-1">
+            <h5 className="font-semibold text-blue-900 mb-2 text-sm">📋 스타일링 팁</h5>
+            <ul className="text-xs text-blue-800 space-y-1 leading-relaxed">
               {result.faceShape === 'round' && (
                 <>
                   <li>• 윗머리에 볼륨을 주어 얼굴이 길어보이게 하세요</li>
@@ -211,7 +210,7 @@ const RecommendationPage = () => {
           </div>
         )}
 
-        <div className="space-y-6">
+        <div className="space-y-4">
           {recommendations.map((recommendation, index) => (
             <StyleRecommendationCard
               key={recommendation.id}
@@ -222,33 +221,33 @@ const RecommendationPage = () => {
         </div>
 
         {recommendations.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500 mb-4">
+          <div className="text-center py-8">
+            <p className="text-gray-500 mb-4 text-sm">
               현재 이 얼굴형에 대한 추천 데이터가 준비중입니다.
             </p>
-            <button onClick={handleStartOver} className="btn-primary">
+            <button onClick={handleStartOver} className="btn-primary text-sm">
               다시 시작하기
             </button>
           </div>
         )}
       </div>
 
-      {/* 하단 액션 버튼 */}
+      {/* 하단 액션 버튼 - iPhone 12 Pro safe area 적용 */}
       {recommendations.length > 0 && (
-        <div className="safe-bottom bg-white border-t border-gray-200 p-6">
+        <div className="safe-bottom bg-white border-t border-gray-200 p-4">
           <div className="flex gap-3">
-            <button className="flex-1 btn-secondary flex items-center justify-center gap-2">
+            <button className="flex-1 btn-secondary flex items-center justify-center gap-2 py-3 text-sm">
               <Heart className="w-4 h-4" />
               저장하기
             </button>
-            <button className="flex-1 btn-primary flex items-center justify-center gap-2">
+            <button className="flex-1 btn-primary flex items-center justify-center gap-2 py-3 text-sm">
               <Share2 className="w-4 h-4" />
               공유하기
             </button>
           </div>
           <button
             onClick={handleStartOver}
-            className="w-full mt-3 text-sm text-gray-500 hover:text-gray-700 transition-colors"
+            className="w-full mt-3 text-sm text-gray-500 hover:text-gray-700 transition-colors py-2"
           >
             새로운 분석 시작하기
           </button>
@@ -267,61 +266,61 @@ const StyleRecommendationCard = ({
 }) => {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      {/* 헤더 */}
+      {/* 헤더 - 컴팩트하게 */}
       <div className="p-4 border-b border-gray-100">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
-              <span className="text-primary-700 font-bold">{index + 1}</span>
+          <div className="flex items-center space-x-3 min-w-0 flex-1">
+            <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+              <span className="text-primary-700 font-bold text-sm">{index + 1}</span>
             </div>
-            <h4 className="text-lg font-bold text-gray-800">
+            <h4 className="text-base font-bold text-gray-800 truncate">
               {recommendation.name}
             </h4>
           </div>
-          <button className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
-            <Heart className="w-5 h-5 text-gray-400" />
+          <button className="p-2 hover:bg-gray-50 rounded-lg transition-colors flex-shrink-0">
+            <Heart className="w-4 h-4 text-gray-400" />
           </button>
         </div>
-        <p className="text-sm text-gray-600 mt-2">
+        <p className="text-sm text-gray-600 mt-2 leading-relaxed">
           {recommendation.description}
         </p>
         
-        {/* 왜 어울리는지 설명 */}
+        {/* 추천 이유 - 컴팩트하게 */}
         {recommendation.suitabilityReason && (
           <div className="mt-3 p-3 bg-green-50 rounded-lg">
-            <p className="text-sm text-green-800">
+            <p className="text-xs text-green-800 leading-relaxed">
               <span className="font-semibold">💡 추천 이유:</span> {recommendation.suitabilityReason}
             </p>
           </div>
         )}
       </div>
 
-      {/* 🌟 실제 연예인 사진! */}
-      <div className="p-6 bg-gradient-to-br from-gray-50 to-white">
+      {/* 🌟 실제 연예인 사진 - iPhone 12 Pro 최적화 */}
+      <div className="p-4 bg-gradient-to-br from-gray-50 to-white">
         {/* 연예인 레퍼런스 헤더 */}
-        <div className="text-center mb-4">
-          <h5 className="text-lg font-bold text-gray-900 mb-1">🌟 연예인 레퍼런스</h5>
-          <p className="text-sm text-gray-600">이 스타일을 완벽하게 소화한 연예인</p>
+        <div className="text-center mb-3">
+          <h5 className="text-base font-bold text-gray-900 mb-1">🌟 연예인 레퍼런스</h5>
+          <p className="text-xs text-gray-600">이 스타일을 완벽하게 소화한 연예인</p>
         </div>
         
-        {/* 큰 연예인 사진 */}
-        <div className="flex flex-col items-center space-y-4">
+        {/* 연예인 사진 - iPhone에 맞게 크기 조정 */}
+        <div className="flex flex-col items-center space-y-3">
           <div className="relative">
             <CelebrityImage 
               name={recommendation.celebrity.name}
-              className="w-32 h-32 shadow-xl border-4 border-white"
+              className="w-24 h-24 shadow-lg border-3 border-white"
             />
             {/* 이름 배지 */}
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
-              <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-1 rounded-full text-sm font-semibold shadow-lg">
+              <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
                 {recommendation.celebrity.name}
               </div>
             </div>
           </div>
           
-          {/* 스타일 설명 */}
-          <div className="text-center max-w-xs">
-            <p className="text-sm text-gray-700 font-medium mb-2">
+          {/* 스타일 설명 - 더 컴팩트하게 */}
+          <div className="text-center max-w-full px-2">
+            <p className="text-xs text-gray-700 font-medium mb-1">
               "{recommendation.name}" 스타일의 완벽한 예시
             </p>
             <p className="text-xs text-gray-500">
@@ -330,12 +329,12 @@ const StyleRecommendationCard = ({
           </div>
         </div>
 
-        {/* 태그들을 연예인 사진 아래로 이동 */}
-        <div className="flex flex-wrap justify-center gap-2 mt-6">
+        {/* 태그들 - 더 컴팩트하게 */}
+        <div className="flex flex-wrap justify-center gap-2 mt-4">
           {recommendation.tags.map((tag, tagIndex) => (
             <span
               key={tagIndex}
-              className="px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-gray-800 text-sm rounded-full font-medium shadow-sm"
+              className="px-3 py-1 bg-gradient-to-r from-blue-100 to-purple-100 text-gray-800 text-xs rounded-full font-medium shadow-sm"
             >
               #{tag}
             </span>
