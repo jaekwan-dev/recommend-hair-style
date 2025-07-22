@@ -69,7 +69,7 @@ const CameraPage = () => {
       navigate('/analysis', {
         state: {
           gender,
-          selectedImage,
+          imageFile: selectedImage,  // selectedImage -> imageFile로 변경
           imagePreview,
         },
       })

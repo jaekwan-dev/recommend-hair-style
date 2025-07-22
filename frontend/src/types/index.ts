@@ -19,8 +19,12 @@ export interface HairStyleRecommendation {
   name: string;
   description: string;
   imageUrl: string;
-  celebrity: Celebrity;
+  celebrity: {
+    name: string;
+    imageUrl: string;
+  };
   tags: string[];
+  suitabilityReason: string; // 왜 이 얼굴형에 어울리는지 설명
 }
 
 export interface RecommendationResponse {

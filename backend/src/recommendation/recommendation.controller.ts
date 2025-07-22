@@ -1,5 +1,5 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
+import { Controller, Get, Query, Param } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiParam } from '@nestjs/swagger';
 import { RecommendationService } from './recommendation.service';
 
 @ApiTags('recommendations')
@@ -26,12 +26,21 @@ export class RecommendationController {
               name: { type: 'string' },
               description: { type: 'string' },
               imageUrl: { type: 'string' },
-              celebrity: { type: 'object' },
-              tags: { type: 'array', items: { type: 'string' } }
+              celebrity: { 
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  imageUrl: { type: 'string' }
+                }
+              },
+              tags: { type: 'array', items: { type: 'string' } },
+              suitabilityReason: { type: 'string' }
             }
           }
         },
-        totalCount: { type: 'number' }
+        totalCount: { type: 'number' },
+        faceShapeDescription: { type: 'string' },
+        generalTips: { type: 'array', items: { type: 'string' } }
       }
     }
   })
@@ -45,14 +54,40 @@ export class RecommendationController {
     );
   }
 
-  @Get('celebrities')
-  @ApiOperation({ summary: '특정 헤어스타일의 연예인 레퍼런스' })
-  @ApiQuery({ name: 'styleId', type: 'string' })
+  @Get('face-shapes')
+  @ApiOperation({ summary: '지원되는 모든 얼굴형 목록' })
   @ApiResponse({ 
     status: 200, 
-    description: '연예인 레퍼런스 목록' 
+    description: '얼굴형 목록',
+    schema: {
+      type: 'object',
+      properties: {
+        faceShapes: { type: 'array', items: { type: 'string' } }
+      }
+    }
   })
-  getCelebrityReferences(@Query('styleId') styleId: string) {
-    return this.recommendationService.getCelebrityReferences(styleId);
+  getSupportedFaceShapes() {
+    return {
+      faceShapes: this.recommendationService.getSupportedFaceShapes()
+    };
+  }
+
+  @Get('hair-styles/:styleId')
+  @ApiOperation({ summary: '특정 헤어스타일의 상세 정보' })
+  @ApiParam({ name: 'styleId', type: 'string', description: '헤어스타일 ID' })
+  @ApiResponse({ 
+    status: 200, 
+    description: '헤어스타일 상세 정보' 
+  })
+  @ApiResponse({ 
+    status: 404, 
+    description: '헤어스타일을 찾을 수 없음' 
+  })
+  getHairStyleDetail(@Param('styleId') styleId: string) {
+    const style = this.recommendationService.getHairStyleDetail(styleId);
+    if (!style) {
+      return { error: '해당 헤어스타일을 찾을 수 없습니다.', styleId };
+    }
+    return style;
   }
 } 

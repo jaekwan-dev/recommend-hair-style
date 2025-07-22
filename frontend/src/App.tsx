@@ -16,7 +16,7 @@ function App() {
           <Route path="/camera" element={<CameraPage />} />
           <Route path="/analysis" element={<AnalysisPage />} />
           <Route path="/result" element={<ResultPage />} />
-          <Route path="/recommendations" element={<RecommendationPage />} />
+          <Route path="/recommendation" element={<RecommendationPage />} />
         </Routes>
       </div>
     </Router>
