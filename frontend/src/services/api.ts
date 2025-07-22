@@ -30,9 +30,15 @@ export const faceAnalysisApi = {
   /**
    * 얼굴 이미지 분석
    */
-  analyzeFace: async (imageFile: File): Promise<FaceAnalysisResult> => {
-    const formData = new FormData()
-    formData.append('image', imageFile)
+  analyzeFace: async (imageData: File | FormData): Promise<FaceAnalysisResult> => {
+    let formData: FormData
+
+    if (imageData instanceof FormData) {
+      formData = imageData
+    } else {
+      formData = new FormData()
+      formData.append('image', imageData)
+    }
 
     const response = await api.post<FaceAnalysisResult>('/face-analysis/analyze', formData, {
       headers: {
