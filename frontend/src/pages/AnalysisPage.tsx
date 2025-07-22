@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Sparkles, Loader } from 'lucide-react'
 import { faceAnalysisApi } from '../services/api'
-import { FaceAnalysisResult } from '../types'
 
 const AnalysisPage = () => {
   const navigate = useNavigate()
