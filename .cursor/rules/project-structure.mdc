@@ -1,0 +1,49 @@
+# HairMatch 프로젝트 구조 가이드
+
+## 📁 전체 아키텍처
+HairMatch는 AI 기반 얼굴형 분석 헤어스타일 추천 서비스로 다음과 같이 구성됩니다:
+
+```
+hairmatch/
+├── backend/          # NestJS API 서버 (포트: 3001)
+├── frontend/         # React + Vite 웹앱 (포트: 5173)
+├── [PRD.md](mdc:PRD.md)           # 제품 요구사항 문서
+└── [package.json](mdc:package.json)      # 워크스페이스 루트
+```
+
+## 🔧 핵심 구성요소
+
+### 백엔드 ([backend/](mdc:backend/))
+- **진입점**: [backend/src/main.ts](mdc:backend/src/main.ts)
+- **루트 모듈**: [backend/src/app.module.ts](mdc:backend/src/app.module.ts)
+- **얼굴형 분석**: [backend/src/face-analysis/](mdc:backend/src/face-analysis/)
+- **헤어스타일 추천**: [backend/src/recommendation/](mdc:backend/src/recommendation/)
+- **공통 타입**: [backend/src/common/](mdc:backend/src/common/)
+
+### 프론트엔드 ([frontend/](mdc:frontend/))
+- **진입점**: [frontend/src/main.tsx](mdc:frontend/src/main.tsx)
+- **앱 루트**: [frontend/src/App.tsx](mdc:frontend/src/App.tsx)
+- **페이지들**: [frontend/src/pages/](mdc:frontend/src/pages/)
+- **API 서비스**: [frontend/src/services/api.ts](mdc:frontend/src/services/api.ts)
+- **타입 정의**: [frontend/src/types/index.ts](mdc:frontend/src/types/index.ts)
+
+## 🎯 사용자 플로우 (4단계)
+1. **홈** → [HomePage.tsx](mdc:frontend/src/pages/HomePage.tsx)
+2. **성별 선택** → [GenderSelectPage.tsx](mdc:frontend/src/pages/GenderSelectPage.tsx)
+3. **사진 업로드** → [CameraPage.tsx](mdc:frontend/src/pages/CameraPage.tsx)
+4. **AI 분석** → [AnalysisPage.tsx](mdc:frontend/src/pages/AnalysisPage.tsx)
+5. **결과 확인** → [ResultPage.tsx](mdc:frontend/src/pages/ResultPage.tsx)
+6. **헤어스타일 추천** → [RecommendationPage.tsx](mdc:frontend/src/pages/RecommendationPage.tsx)
+
+## 🚀 개발 명령어
+```bash
+# 전체 의존성 설치
+npm run install:all
+
+# 개발 서버 실행 (백엔드 + 프론트엔드)
+npm run dev
+
+# 개별 실행
+npm run dev:backend    # NestJS 서버만
+npm run dev:frontend   # React 앱만
+```

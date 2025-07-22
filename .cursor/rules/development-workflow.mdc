@@ -1,0 +1,177 @@
+# HairMatch 개발 워크플로우 가이드
+
+## 🚀 개발 환경 설정
+
+### 초기 설정
+```bash
+# 1. 저장소 클론 후
+cd hairmatch
+
+# 2. 모든 의존성 설치
+npm run install:all
+
+# 3. 환경변수 설정
+cd backend && echo "PORT=3001" > .env && echo "NODE_ENV=development" >> .env
+cd ../frontend && echo "VITE_API_URL=http://localhost:3001" > .env
+cd ..
+
+# 4. 개발 서버 실행
+npm run dev
+```
+
+### 개발 서버 확인
+- **백엔드**: http://localhost:3001
+- **Swagger API**: http://localhost:3001/api  
+- **프론트엔드**: http://localhost:5173
+
+## 🔄 개발 프로세스
+
+### 기능 개발 순서
+1. **백엔드 API 먼저 개발**
+   - Controller → Service → 테스트
+   - Swagger 문서 확인
+2. **프론트엔드에서 API 연동**
+   - [api.ts](mdc:frontend/src/services/api.ts)에서 함수 추가
+   - 페이지 컴포넌트에서 사용
+3. **타입 동기화 확인**
+   - 백엔드와 프론트엔드 타입 일치여부 검증
+
+### 새 기능 추가 시 체크리스트
+- [ ] PRD 요구사항 확인: [PRD.md](mdc:PRD.md)
+- [ ] 백엔드 API 구현 및 Swagger 문서화
+- [ ] 프론트엔드 UI/UX 구현
+- [ ] 에러 처리 및 로딩 상태
+- [ ] 모바일 반응형 확인
+- [ ] 타입 안전성 검증
+
+## 🧪 테스트 전략
+
+### API 테스트
+```bash
+# 백엔드 단위 테스트
+cd backend && npm run test
+
+# API 수동 테스트 (Swagger 활용)
+# http://localhost:3001/api 에서 직접 테스트
+```
+
+### UI 테스트
+```bash  
+# 프론트엔드 린팅
+cd frontend && npm run lint
+
+# 빌드 테스트
+npm run build
+```
+
+## 📝 코드 품질
+
+### TypeScript 활용
+```typescript
+// ✅ 명확한 타입 정의
+interface ApiResponse<T> {
+  data: T;
+  status: 'success' | 'error';
+  message?: string;
+}
+
+// ✅ 제네릭 활용
+async function apiCall<T>(endpoint: string): Promise<ApiResponse<T>>
+```
+
+### 에러 처리 패턴
+```typescript
+// 백엔드
+try {
+  const result = await this.processImage(buffer);
+  return result;
+} catch (error) {
+  this.logger.error('처리 실패:', error);
+  throw new BadRequestException('이미지 처리에 실패했습니다');
+}
+
+// 프론트엔드  
+try {
+  const result = await api.analyzeFace(file);
+  setAnalysisResult(result);
+} catch (error) {
+  console.error('API 에러:', error);
+  setError('분석에 실패했습니다. 다시 시도해주세요.');
+}
+```
+
+## 🎯 성능 최적화
+
+### 백엔드 최적화
+- 이미지 처리 시 적절한 크기 제한
+- 비동기 처리로 응답 속도 개선
+- 적절한 에러 응답 코드 사용
+
+### 프론트엔드 최적화  
+- 이미지 미리보기 최적화
+- API 호출 시 로딩 상태 표시
+- 불필요한 리렌더링 방지
+
+## 📚 문서화
+
+### API 문서화
+- 모든 엔드포인트에 Swagger 어노테이션 필수
+- 요청/응답 예시 포함
+- 에러 케이스 명시
+
+### 코드 주석
+```typescript
+/**
+ * 얼굴형을 분석하여 6가지 타입 중 하나를 반환합니다
+ * @param imageBuffer 분석할 이미지 바이너리 데이터
+ * @returns 얼굴형 분석 결과 (타입, 신뢰도, 설명 포함)
+ */
+async analyzeFaceShape(imageBuffer: Buffer): Promise<FaceAnalysisResult>
+```
+
+## 🐛 디버깅 가이드
+
+### 로그 활용
+```typescript
+// 백엔드 로깅
+this.logger.debug(`얼굴형 분석 시작: ${file.originalname}`);
+this.logger.error('분석 실패:', error.message);
+
+// 프론트엔드 디버깅
+console.log('API 요청:', { faceShape, gender });
+console.error('분석 실패:', error);
+```
+
+### 개발자 도구 활용
+- Network 탭에서 API 호출 확인
+- Console에서 에러 메시지 확인
+- React DevTools로 컴포넌트 상태 추적
+
+## 🚢 배포 준비
+
+### 프로덕션 빌드
+```bash
+# 프로덕션 빌드 테스트
+npm run build
+
+# 빌드 파일 확인
+ls -la backend/dist
+ls -la frontend/dist
+```
+
+### 환경변수 관리
+```bash
+# 프로덕션 환경변수 예시
+# backend/.env.production
+PORT=3001
+NODE_ENV=production
+
+# frontend/.env.production  
+VITE_API_URL=https://your-api-domain.com
+```
+
+## ⚠️ 주의사항
+- 개발 중에는 Mock 데이터 사용 (MediaPipe 통합 전)
+- 파일 업로드 크기 제한 (5MB) 준수
+- CORS 설정 프로덕션 환경에서 도메인 제한 필요
+- 이미지 저작권 고려하여 연예인 사진 사용

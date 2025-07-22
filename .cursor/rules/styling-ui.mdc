@@ -1,0 +1,202 @@
+# 스타일링 및 UI 컴포넌트 가이드
+
+## 🎨 디자인 시스템
+
+### 컬러 팔레트 ([tailwind.config.js](mdc:frontend/tailwind.config.js))
+```javascript
+primary: {
+  50: '#faf5ff',   // 매우 연한 보라
+  100: '#f3e8ff',
+  // ...
+  600: '#9333ea',  // 메인 브랜드 컬러
+  700: '#7c3aed',
+  800: '#6b21a8',
+  900: '#581c87',  // 가장 진한 보라
+}
+```
+
+### 타이포그래피
+```css
+/* 기본 폰트: Pretendard (한글 최적화) */
+font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue'
+```
+
+## 🧩 UI 컴포넌트 클래스
+
+### 버튼 컴포넌트 ([index.css](mdc:frontend/src/index.css))
+```css
+/* 주 액션 버튼 */
+.btn-primary {
+  @apply bg-primary-600 text-white px-6 py-3 rounded-lg font-medium 
+         hover:bg-primary-700 active:bg-primary-800 
+         disabled:bg-gray-300 disabled:cursor-not-allowed
+         transition-colors duration-200
+         focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+}
+
+/* 보조 액션 버튼 */
+.btn-secondary {
+  @apply bg-white text-gray-700 border border-gray-300 px-6 py-3 rounded-lg font-medium
+         hover:bg-gray-50 active:bg-gray-100
+         disabled:bg-gray-100 disabled:cursor-not-allowed
+         transition-colors duration-200
+         focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+}
+```
+
+### 카드 컴포넌트
+```css
+.card {
+  @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6;
+}
+```
+
+### 모바일 컨테이너
+```css
+.mobile-container {
+  @apply max-w-sm mx-auto min-h-screen bg-white;
+}
+```
+
+## 📱 모바일 최적화
+
+### Safe Area 지원
+```css
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+```
+
+### 터치 친화적 디자인
+```tsx
+// ✅ 최소 터치 영역 44px
+<button className="min-h-[44px] min-w-[44px]">
+
+// ✅ 충분한 여백
+<div className="p-4 space-y-4">
+
+// ✅ 큰 텍스트와 아이콘
+<span className="text-lg">
+<Icon className="w-6 h-6" />
+```
+
+## 🖼️ 이미지 및 업로드 UI
+
+### 업로드 영역
+```css
+.upload-area {
+  @apply border-2 border-dashed border-gray-300 rounded-xl p-8 text-center
+         hover:border-primary-400 hover:bg-primary-50
+         transition-colors duration-200;
+}
+
+.upload-area.dragover {
+  @apply border-primary-500 bg-primary-100;
+}
+```
+
+### 이미지 미리보기
+```tsx
+// ✅ 둥근 이미지 (프로필)
+<div className="w-32 h-32 rounded-full overflow-hidden shadow-lg">
+  <img className="w-full h-full object-cover" />
+</div>
+
+// ✅ 카드 형태 이미지
+<div className="aspect-w-16 aspect-h-10 rounded-xl overflow-hidden">
+  <img className="w-full h-full object-cover" />
+</div>
+```
+
+## 🎯 진행률 및 피드백
+
+### 단계별 진행률
+```tsx
+// 4단계 진행률 표시
+<div className="flex items-center space-x-2">
+  <div className="w-3 h-3 bg-primary-600 rounded-full"></div>  {/* 완료 */}
+  <div className="w-3 h-3 bg-primary-600 rounded-full"></div>  {/* 현재 */}
+  <div className="w-3 h-3 bg-gray-200 rounded-full"></div>     {/* 대기 */}
+  <div className="w-3 h-3 bg-gray-200 rounded-full"></div>
+</div>
+<p className="text-sm text-gray-600 mt-2">2단계 / 4단계</p>
+```
+
+### 로딩 상태
+```tsx
+// 스피너
+<Loader className="w-12 h-12 text-primary-600 animate-spin" />
+
+// 프로그레스 바
+<div className="w-full bg-gray-200 rounded-full h-3">
+  <div 
+    className="bg-gradient-to-r from-primary-500 to-purple-500 h-3 rounded-full transition-all duration-500 ease-out"
+    style={{ width: `${progress}%` }}
+  ></div>
+</div>
+```
+
+## 🎨 특수 효과
+
+### 그라데이션
+```css
+/* 텍스트 그라데이션 */
+.text-gradient {
+  @apply bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent;
+}
+
+/* 배경 그라데이션 */
+bg-gradient-to-br from-primary-50 to-purple-50
+```
+
+### 애니메이션
+```css
+/* 커스텀 펄스 애니메이션 */
+.animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+```
+
+## 📐 레이아웃 패턴
+
+### 페이지 기본 구조
+```tsx
+<div className="flex flex-col min-h-screen bg-white">
+  {/* 헤더 */}
+  <div className="safe-top flex items-center justify-between p-4 border-b border-gray-100">
+    <button>뒤로가기</button>
+    <h1>페이지 제목</h1>
+    <div>액션</div>
+  </div>
+
+  {/* 메인 콘텐츠 */}
+  <div className="flex-1 px-6 py-8">
+    {/* 내용 */}
+  </div>
+
+  {/* 하단 버튼 */}
+  <div className="safe-bottom p-6">
+    <button className="w-full btn-primary">다음 단계</button>
+  </div>
+</div>
+```
+
+### 반응형 디자인
+```tsx
+// 모바일 우선 + 태블릿 대응
+<div className="
+  grid grid-cols-1 gap-4    /* 모바일 */
+  tablet:grid-cols-2        /* 768px+ */
+  desktop:grid-cols-3       /* 1024px+ */
+">
+```
+
+## ⚡ 성능 최적화
+- 이미지 lazy loading: `loading="lazy"`
+- CSS 트랜지션으로 부드러운 상호작용
+- Tailwind의 JIT 모드로 불필요한 CSS 제거
+- 커스텀 CSS는 최소화하고 Tailwind 클래스 활용

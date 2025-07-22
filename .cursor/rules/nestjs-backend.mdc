@@ -1,0 +1,70 @@
+# NestJS 백엔드 개발 가이드
+
+## 🏗️ 모듈 구조
+HairMatch 백엔드는 다음 모듈들로 구성됩니다:
+
+### 📸 얼굴형 분석 모듈
+- **컨트롤러**: [face-analysis.controller.ts](mdc:backend/src/face-analysis/face-analysis.controller.ts)
+- **서비스**: [face-analysis.service.ts](mdc:backend/src/face-analysis/face-analysis.service.ts)  
+- **모듈**: [face-analysis.module.ts](mdc:backend/src/face-analysis/face-analysis.module.ts)
+
+### 💡 추천 모듈
+- **컨트롤러**: [recommendation.controller.ts](mdc:backend/src/recommendation/recommendation.controller.ts)
+- **서비스**: [recommendation.service.ts](mdc:backend/src/recommendation/recommendation.service.ts)
+- **모듈**: [recommendation.module.ts](mdc:backend/src/recommendation/recommendation.module.ts)
+
+## 📋 코딩 컨벤션
+
+### API 엔드포인트
+```typescript
+// ✅ 올바른 방식
+@Post('analyze')
+@ApiOperation({ summary: '얼굴형 분석' })
+@ApiResponse({ status: 200, description: '분석 결과' })
+async analyzeFace(@UploadedFile() file: Express.Multer.File) {
+  return await this.faceAnalysisService.analyzeFaceShape(file.buffer);
+}
+```
+
+### 서비스 메서드
+```typescript
+// ✅ 비동기 처리와 에러 핸들링
+async analyzeFaceShape(imageBuffer: Buffer): Promise<FaceAnalysisResult> {
+  try {
+    // 분석 로직
+    return result;
+  } catch (error) {
+    this.logger.error('얼굴형 분석 실패:', error);
+    throw new BadRequestException('분석에 실패했습니다');
+  }
+}
+```
+
+### 타입 정의
+- 공통 타입은 [backend/src/common/interfaces/](mdc:backend/src/common/interfaces/)에 정의
+- DTO는 [backend/src/common/dto/](mdc:backend/src/common/dto/)에 정의
+- API 응답은 명확한 인터페이스 사용
+
+## 🛠️ 주요 API
+
+### 얼굴형 분석
+```
+POST /face-analysis/analyze
+Content-Type: multipart/form-data
+Body: { image: File }
+```
+
+### 헤어스타일 추천  
+```
+GET /recommendations/hair-styles
+Query: { faceShape: string, gender: 'male'|'female' }
+```
+
+### Swagger 문서
+- 모든 엔드포인트는 `@ApiOperation`, `@ApiResponse` 데코레이터 필수
+- 개발 중에는 http://localhost:3001/api 에서 확인 가능
+
+## 🔧 개발 시 주의사항
+- 파일 업로드는 5MB 제한
+- CORS 설정은 [main.ts](mdc:backend/src/main.ts)에서 관리
+- 환경변수는 `.env` 파일에서 관리 (PORT, NODE_ENV)
